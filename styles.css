@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1a1a1a;
+    color: white;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+canvas {
+    background: #000;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+}
+
+#startButton {
+    background: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+#score, #lives {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+#powerups-legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+#powerups-legend h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.powerup-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.powerup-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+.powerup-text {
+    font-size: 14px;
+}
+
+.powerup-icon.laser {
+    background-color: #ff0000;
+}
+
+.powerup-icon.fireball {
+    background-color: #ff6600;
+}
+
+.powerup-icon.shield {
+    background-color: #00ffff;
+}
+
+.powerup-icon.multiball {
+    background-color: #ffff00;
+}
+
+.powerup-icon.slowmotion {
+    background-color: #9933ff;
+}
+
+#mobileControls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0.3;
+}
+
+#leftControl, #rightControl {
+    width: 50%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    touch-action: none;
+}
+
+@media (max-width: 768px) {
+    #powerups-legend {
+        top: auto;
+        bottom: 100px;
+        right: 10px;
+        font-size: 14px;
+    }
+    
+    .powerup-text {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 768px) {
+    #mobileControls {
+        display: none;
+    }
+} 
