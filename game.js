@@ -108,7 +108,16 @@ class ArkanoidGame {
         for (let c = 0; c < this.brickColumnCount; c++) {
             bricks[c] = [];
             for (let r = 0; r < this.brickRowCount; r++) {
-                bricks[c][r] = { x: 0, y: 0, status: 1 };
+                // 30% chance of having a power-up
+                const hasPowerUp = Math.random() < 0.3;
+                // If it has a power-up, randomly select one
+                const powerUpType = hasPowerUp ? ['laser', 'fireball', 'shield', 'multiBall', 'slowMotion'][Math.floor(Math.random() * 5)] : null;
+                bricks[c][r] = { 
+                    x: 0, 
+                    y: 0, 
+                    status: 1,
+                    powerUpType: powerUpType
+                };
             }
         }
         return bricks;
@@ -251,7 +260,21 @@ class ArkanoidGame {
                     this.bricks[c][r].y = brickY;
                     this.ctx.beginPath();
                     this.ctx.rect(brickX, brickY, this.brickWidth, this.brickHeight);
-                    this.ctx.fillStyle = '#0095DD';
+                    
+                    // Set color based on power-up type
+                    const brick = this.bricks[c][r];
+                    if (brick.powerUpType) {
+                        switch(brick.powerUpType) {
+                            case 'laser': this.ctx.fillStyle = '#ff0000'; break;
+                            case 'fireball': this.ctx.fillStyle = '#ff6600'; break;
+                            case 'shield': this.ctx.fillStyle = '#00ffff'; break;
+                            case 'multiBall': this.ctx.fillStyle = '#ffff00'; break;
+                            case 'slowMotion': this.ctx.fillStyle = '#9933ff'; break;
+                        }
+                    } else {
+                        this.ctx.fillStyle = '#0095DD'; // Default color for blocks without power-ups
+                    }
+                    
                     this.ctx.fill();
                     this.ctx.closePath();
                 }
@@ -308,9 +331,9 @@ class ArkanoidGame {
                             this.score++;
                             document.getElementById('scoreValue').textContent = this.score;
                             
-                            // Chance to spawn power-up
-                            if (Math.random() < this.powerUpChance) {
-                                this.createPowerUp(b.x + this.brickWidth/2, b.y + this.brickHeight);
+                            // Only spawn power-up if the brick has one
+                            if (b.powerUpType) {
+                                this.createPowerUp(b.x + this.brickWidth/2, b.y + this.brickHeight, b.powerUpType);
                             }
                             
                             if (this.score === this.brickRowCount * this.brickColumnCount) {
@@ -404,9 +427,7 @@ class ArkanoidGame {
         this.gameLoop();
     }
     
-    createPowerUp(x, y) {
-        const types = ['laser', 'fireball', 'shield', 'multiBall', 'slowMotion'];
-        const type = types[Math.floor(Math.random() * types.length)];
+    createPowerUp(x, y, type) {
         this.powerUps.push({ x, y, type, speed: 2 });
     }
     
