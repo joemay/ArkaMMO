@@ -53,24 +53,61 @@ canvas {
 }
 
 #powerups-legend {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 100;
+    max-width: 250px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+#powerups-legend.visible {
+    transform: translateX(0);
+}
+
+#powerups-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    border: none;
     padding: 10px;
     border-radius: 5px;
-    z-index: 10;
+    cursor: pointer;
+    z-index: 101;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#powerups-toggle:hover {
+    background: rgba(0, 0, 0, 0.95);
 }
 
 #powerups-legend h3 {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-size: 16px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 5px;
 }
 
 .powerup-item {
     display: flex;
     align-items: center;
-    margin: 5px 0;
+    margin: 8px 0;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.powerup-item:hover {
+    opacity: 1;
 }
 
 .powerup-icon {
@@ -78,10 +115,12 @@ canvas {
     height: 20px;
     margin-right: 10px;
     border-radius: 3px;
+    flex-shrink: 0;
 }
 
 .powerup-text {
     font-size: 14px;
+    color: #fff;
 }
 
 .powerup-icon.laser {
@@ -124,14 +163,22 @@ canvas {
 
 @media (max-width: 768px) {
     #powerups-legend {
-        top: auto;
         bottom: 100px;
         right: 10px;
+        max-width: 200px;
         font-size: 14px;
+    }
+    
+    #powerups-toggle {
+        bottom: 100px;
     }
     
     .powerup-text {
         font-size: 12px;
+    }
+    
+    #powerups-legend h3 {
+        font-size: 14px;
     }
 }
 
@@ -139,4 +186,127 @@ canvas {
     #mobileControls {
         display: none;
     }
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+#startButton, .control-toggle {
+    background: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+#startButton:hover, .control-toggle:hover {
+    background: #45a049;
+}
+
+#startButton:active, .control-toggle:active {
+    transform: scale(0.98);
+}
+
+.control-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #2196F3;
+}
+
+.control-toggle:hover {
+    background: #1976D2;
+}
+
+.control-icon {
+    font-size: 20px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.control-icon.active {
+    opacity: 1;
+}
+
+.control-text {
+    margin-left: 5px;
+}
+
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #startButton, .control-toggle {
+        width: 100%;
+    }
+    
+    .control-toggle {
+        justify-content: center;
+    }
+}
+
+#arrow-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 100;
+}
+
+.arrow-button {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.arrow-button:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .arrow-button {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    
+    #arrow-controls {
+        bottom: 10px;
+        gap: 15px;
+    }
+}
+
+/* Remove gyroscope-related styles */
+.button-group,
+.control-toggle,
+.control-icon,
+.control-text {
+    display: none;
+}
+
+#mobileControls {
+    display: none;
 } 

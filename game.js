@@ -73,10 +73,8 @@ class ArkanoidGame {
         // Bind event handlers
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
-        this.handleTouchStart = this.handleTouchStart.bind(this);
-        this.handleTouchEnd = this.handleTouchEnd.bind(this);
-        this.gameLoop = this.gameLoop.bind(this);
         this.handleShoot = this.handleShoot.bind(this);
+        this.gameLoop = this.gameLoop.bind(this);
         
         // Add event listeners
         this.setupEventListeners();
@@ -117,19 +115,53 @@ class ArkanoidGame {
     }
     
     setupEventListeners() {
+        // Keyboard controls
         document.addEventListener('keydown', this.handleKeyDown);
         document.addEventListener('keyup', this.handleKeyUp);
         
-        // Mobile controls
-        const leftControl = document.getElementById('leftControl');
-        const rightControl = document.getElementById('rightControl');
+        // Arrow button controls
+        const leftArrow = document.getElementById('leftArrow');
+        const rightArrow = document.getElementById('rightArrow');
         
-        leftControl.addEventListener('touchstart', () => this.leftPressed = true);
-        leftControl.addEventListener('touchend', () => this.leftPressed = false);
-        rightControl.addEventListener('touchstart', () => this.rightPressed = true);
-        rightControl.addEventListener('touchend', () => this.rightPressed = false);
+        // Touch events for arrow buttons
+        leftArrow.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.leftPressed = true;
+        });
         
-        // Add shooting control
+        leftArrow.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            this.leftPressed = false;
+        });
+        
+        rightArrow.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.rightPressed = true;
+        });
+        
+        rightArrow.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            this.rightPressed = false;
+        });
+        
+        // Mouse events for arrow buttons
+        leftArrow.addEventListener('mousedown', () => {
+            this.leftPressed = true;
+        });
+        
+        leftArrow.addEventListener('mouseup', () => {
+            this.leftPressed = false;
+        });
+        
+        rightArrow.addEventListener('mousedown', () => {
+            this.rightPressed = true;
+        });
+        
+        rightArrow.addEventListener('mouseup', () => {
+            this.rightPressed = false;
+        });
+        
+        // Add shooting control for keyboard
         document.addEventListener('keydown', this.handleShoot);
     }
     
@@ -147,21 +179,6 @@ class ArkanoidGame {
         } else if (e.key === 'Left' || e.key === 'ArrowLeft') {
             this.leftPressed = false;
         }
-    }
-    
-    handleTouchStart(e) {
-        const touch = e.touches[0];
-        const x = touch.clientX;
-        if (x < window.innerWidth / 2) {
-            this.leftPressed = true;
-        } else {
-            this.rightPressed = true;
-        }
-    }
-    
-    handleTouchEnd(e) {
-        this.leftPressed = false;
-        this.rightPressed = false;
     }
     
     handleShoot(e) {
@@ -482,5 +499,5 @@ class ArkanoidGame {
 
 // Initialize game when window loads
 window.onload = () => {
-    new ArkanoidGame();
+    window.gameInstance = new ArkanoidGame();
 }; 
